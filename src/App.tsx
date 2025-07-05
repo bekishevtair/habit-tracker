@@ -20,6 +20,14 @@ function App() {
     setHabits((prev) => prev.filter((habit) => habit.id !== id))
   }
 
+  const incrementHabit = (id: string) => {
+    setHabits((prev) =>
+      prev.map((habit) =>
+        habit.id === id ? { ...habit, count: habit.count + 1 } : habit
+      )
+    )
+  }
+
   useEffect(() => {
     const storedHabits = localStorage.getItem("habits")
     if (storedHabits) {
@@ -40,10 +48,10 @@ function App() {
             <HabitList
               habits={habits}
               removeHabit={removeHabit}
+              incrementHabit={incrementHabit}
             />
           </div>
         </div>
-        
       </section>
     </div>
   )

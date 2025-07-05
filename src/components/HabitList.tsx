@@ -5,14 +5,20 @@ import { HabitType } from "../types/HabitType"
 interface HabitListProps {
   habits: HabitType[]
   removeHabit: (id: string) => void
+  incrementHabit: (id: string) => void
 }
 
-const HabitList: React.FC<HabitListProps> = ({ habits, removeHabit }) => {
+const HabitList: React.FC<HabitListProps> = ({
+  habits,
+  removeHabit,
+  incrementHabit
+}) => {
   return (
     <ul>
       {habits.map((habit) => {
         return (
           <HabitItem
+            incrementHabit={incrementHabit}
             removeHabit={removeHabit}
             key={habit.id}
             habit={habit}
