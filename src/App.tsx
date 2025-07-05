@@ -1,26 +1,25 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-
+import "./App.css"
+import HabitForm from "./components/HabitForm"
+import HabitList from "./components/HabitList"
+import HabitItem from "./components/HabitItem"
+import { useState } from "react"
+import { HabitType } from "./types/HabitType"
 function App() {
+  const [habits, setHabits] = useState<HabitType[]>([])
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <section className="section">
+        <div className="container">
+          <div className="row">
+            <h1>Hello Habit tracker</h1>
+            <HabitForm />
+            <HabitList />
+            <HabitItem />
+          </div>
+        </div>
+      </section>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
