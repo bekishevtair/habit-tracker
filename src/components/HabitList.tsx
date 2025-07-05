@@ -1,7 +1,20 @@
 import React from "react"
-
-const HabitList = () => {
-  return <div>HabitList</div>
+import { HabitType } from "../types/HabitType"
+interface HabitListProps {
+  habits: HabitType[]
+}
+const HabitList: React.FC<HabitListProps> = ({ habits }) => {
+  return (
+    <ul>
+      {habits.map((habit) => {
+        return (
+          <li key={habit.id}>
+            {habit.name} = Completed {habit.count} times
+          </li>
+        )
+      })}
+    </ul>
+  )
 }
 
 export default HabitList
