@@ -5,6 +5,7 @@ interface HabitFormProps {
 }
 const HabitForm: React.FC<HabitFormProps> = ({ onSubmit }) => {
   const [value, setValue] = useState("")
+  const [isBtnDisabled, setBtnDisabled] = useState(true)
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     onSubmit(value.trim())
@@ -12,6 +13,7 @@ const HabitForm: React.FC<HabitFormProps> = ({ onSubmit }) => {
   }
   return (
     <form
+      onSubmit={handleSubmit}
       className="form"
       action="">
       <div className="form__row">
@@ -19,11 +21,13 @@ const HabitForm: React.FC<HabitFormProps> = ({ onSubmit }) => {
           type="text"
           value={value}
           placeholder="Your habit"
-          onChange={(e) => setValue(e.target.value)}
+          onChange={(e) => {
+            setValue(e.target.value)
+          }}
         />
       </div>
       <div className="form__row">
-        <button onClick={handleSubmit}>Add habit</button>
+        <button>Add habit</button>
       </div>
     </form>
   )

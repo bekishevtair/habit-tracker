@@ -2,7 +2,7 @@ import "./App.css"
 import HabitForm from "./components/HabitForm"
 import HabitList from "./components/HabitList"
 import HabitItem from "./components/HabitItem"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { HabitType } from "./types/HabitType"
 function App() {
   const [habits, setHabits] = useState<HabitType[]>([])
@@ -16,6 +16,20 @@ function App() {
       }
     ])
   }
+  const removeHabit = (id: string) => {
+    setHabits((prev) => prev.filter((habit) => habit.id !== id))
+  }
+
+  useEffect(() => {
+    const storedHabits = localStorage.getItem("habits")
+    if (storedHabits) {
+      console.log(storedHabits)
+      setHabits((prev) => [...prev, ...JSON.parse(storedHabits)])
+    }
+  }, [])
+  useEffect(() => {
+    localStorage.setItem("habits", JSON.stringify(habits))
+  }, [habits])
   return (
     <div className="App">
       <section className="section">
@@ -23,7 +37,10 @@ function App() {
           <div className="row">
             <h1>Hello Habit tracker</h1>
             <HabitForm onSubmit={addHabit} />
-            <HabitList habits={habits} />
+            <HabitList
+              habits={habits}
+              removeHabit={removeHabit}
+            />
           </div>
         </div>
       </section>
