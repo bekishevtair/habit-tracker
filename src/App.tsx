@@ -1,40 +1,26 @@
 import "./App.css"
 import HabitForm from "./components/HabitForm"
 import HabitList from "./components/HabitList"
-import HabitItem from "./components/HabitItem"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useReducer } from "react"
 import { HabitType } from "./types/HabitType"
+import habitReducer from "./reducers/habitReducer"
 function App() {
-  const [habits, setHabits] = useState<HabitType[]>([])
+  const init = (): HabitType[] => {
+    const storedHabits = localStorage.getItem("habits")
+    return storedHabits ? JSON.parse(storedHabits) : []
+  }
+  const [habits, dispatch] = useReducer(habitReducer, [], init)
   const addHabit = (name: string) => {
-    setHabits((prev) => [
-      ...prev,
-      {
-        id: Date.now().toString(),
-        name,
-        count: 0
-      }
-    ])
+    dispatch({ type: "ADD_HABIT", payload: name })
   }
   const removeHabit = (id: string) => {
-    setHabits((prev) => prev.filter((habit) => habit.id !== id))
+    dispatch({ type: "REMOVE_HABIT", payload: id })
   }
 
   const incrementHabit = (id: string) => {
-    setHabits((prev) =>
-      prev.map((habit) =>
-        habit.id === id ? { ...habit, count: habit.count + 1 } : habit
-      )
-    )
+    dispatch({ type: "INCREMENT_HABIT", payload: id })
   }
 
-  useEffect(() => {
-    const storedHabits = localStorage.getItem("habits")
-    if (storedHabits) {
-      console.log(storedHabits)
-      setHabits((prev) => [...prev, ...JSON.parse(storedHabits)])
-    }
-  }, [])
   useEffect(() => {
     localStorage.setItem("habits", JSON.stringify(habits))
   }, [habits])
